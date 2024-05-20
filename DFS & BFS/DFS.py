@@ -1,5 +1,6 @@
 from Tree import TreeNode
 
+
 def dfs(start, structure, visit_func):
     visited = set()
 
@@ -26,4 +27,3 @@ def dfs(start, structure, visit_func):
         raise ValueError("Unsupported start type")
 
     _dfs_recursive(start_node)
-
