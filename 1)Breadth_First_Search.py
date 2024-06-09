@@ -1,46 +1,45 @@
 from collections import deque
 
 
-def bfs(graph, start_node):
-    """
-  Performs Breadth-First Search on a graph.
+def bfs(tree, start_node, goal_node):
+    if tree is None:
+        return -1
 
-  Args:
-      graph: Adjacency list representation of the graph.
-      start_node: The starting node for the BFS traversal.
-
-  Returns:
-      A list containing the nodes visited in BFS order.
-  """
-    visited = set()  # Keeps track of visited nodes
-    queue = deque([start_node])  # Queue for BFS traversal
-
-    while queue:
-        current_node = queue.popleft()
-        visited.add(current_node)
-
-        for neighbor in graph[current_node]:
-            if neighbor not in visited:
-                queue.append(neighbor)
-                visited.add(neighbor)
-
-    return visited
+    close_List = list()
+    open_List = deque([start_node])
 
 
-# Example usage
-graph = {
-    0: [1, 2],
-    1: [3, 4, 6],
-    2: [5],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
+    while open_List:
+        current_node = open_List.popleft()
+        close_List.append(current_node)
 
+        if goal_node in close_List:
+            return close_List
+
+        for neighbour in tree[current_node]:
+            if neighbour not in close_List:
+                open_List.append(neighbour)
+
+    return -1
+
+
+tree={
+    1:[2,3],
+    2:[4,6,5],
+    3:[7],
+    4:[],
+    5:[],
+    6:[],
+    7:[]
 }
 
+
 starting_node = 1
+goal_node = 7
 
-bfs_order = bfs(graph, starting_node)
+bfs_result = bfs(tree, starting_node, goal_node)
 
-print(f"BFS traversal starting from node {starting_node}: {bfs_order}")
+if bfs_result != -1:
+    print("Path Detected By BFS is : ", bfs_result)
+else:
+    print("Goal Node not in The Tree")

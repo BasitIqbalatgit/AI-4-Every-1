@@ -1,39 +1,40 @@
-
 from collections import deque
 
+def dfs(tree, start_node, goal_node):
+    closed_List = list()
+    open_List = deque([start_node])
 
-def dfs_iterative(graph, start_node):
+    while open_List:
+        current_node = open_List.popleft()
+        closed_List.append(current_node)
 
-    queue = deque([start_node])
-    visited = set()
+        if goal_node in closed_List:
+            return closed_List
 
-    dfs_order = []
-    while queue:
-
-        node = queue.popleft()
-
-        if node not in visited:
-            visited.add(node)
-            dfs_order.append(node)
-
-            # Add all unvisited neighbors to the queue in reverse order
-            for neighbor in reversed(graph[node]):
-                if neighbor not in visited:
-                    queue.appendleft(neighbor)
-
-    return dfs_order
+        for neighbour in reversed(tree[current_node]):
+            if neighbour not in closed_List:
+                open_List.appendleft(neighbour)
+    return -1
 
 
-# Example graph represented as an adjacency list
-graph = {
-    'A': ['B', 'C'],
-    'B': ['D', 'E'],
-    'C': ['F'],
-    'D': [],
-    'E': ['F'],
-    'F': []
+
+# Example tree represented as an adjacency list
+tree = {
+    1: [2, 3],
+    2: [4, 6, 5],
+    3: [7],
+    4: [],
+    5: [],
+    6: [],
+    7: []
 }
 
-# Starting the DFS traversal from node 'A'
-dfs_order = dfs_iterative(graph, 'A')
-print("DFS order:", dfs_order)
+starting_node = 1
+goal_node = 7
+
+dfs_result = dfs(tree, starting_node, goal_node)
+
+if dfs_result != -1:
+    print("Path Detected By DFSff is :", dfs_result)
+else:
+    print("Goal Node not in The Treef")
